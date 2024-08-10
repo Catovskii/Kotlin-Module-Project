@@ -1,3 +1,5 @@
+import exceptions.BreakException
+
 class NoteMenu(private val note: Note, private val currentArchive: Archive) : Menus
 {
     override val menu: MutableMap<Int, () -> Any> = mutableMapOf()
@@ -37,7 +39,7 @@ class NoteMenu(private val note: Note, private val currentArchive: Archive) : Me
             ) {
                 currentArchive.notes.remove(this.note)
                 println("Note '${this.note.name}' deleted")
-                throw NoSuchElementException()
+                throw BreakException()
             }
         }
         println("${i++}. Delete current note")
@@ -49,11 +51,9 @@ class NoteMenu(private val note: Note, private val currentArchive: Archive) : Me
         println("${i}. Exit")
         }
 
-
     private fun showNote(note: Note) {
         println("Note: ${note.name}")
         println("Content: ${note.text}")
     }
-
-
 }
+

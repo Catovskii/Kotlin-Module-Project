@@ -1,3 +1,5 @@
+import exceptions.BreakException
+
 class CreateMenu {
     fun showMenu(obj: Menus) {
         do {
@@ -13,9 +15,14 @@ class CreateMenu {
                         println("No such point!")
                     }
                 }
-            } catch (e: NoSuchElementException) {
+            }
+            catch (e: NoSuchElementException) {
                 break
-            } catch (e: Exception) {
+            }
+            catch (e: BreakException) {
+                break
+            }
+            catch (e: Exception) {
                 println("Please enter a number between 1 and ${obj.menu.size}")
             }
         } while (true)

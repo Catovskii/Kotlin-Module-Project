@@ -1,6 +1,6 @@
 object CheckAnswer {
     fun areYouSureDelete(whatDelete: String, action: () -> Any){
-        println("Are you sure you want to delete this ${whatDelete.lowercase()}?")
+        println("Are you sure you want to delete ${whatDelete.lowercase()}?")
         println("1. Yes")
         println("2. No")
         println("Enter your choice: ")
