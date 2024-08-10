@@ -36,6 +36,16 @@ object ArchiveMenu : Menus {
         }
         println("${i++}. Add note")
 
+        // Edit current archive name
+        menu[i] = {
+            println("Enter new archive name: ")
+            val name = readln()
+            if (name!= "") {currentArchive.name = name}
+            else {println("You must enter a name to edit the archive!")
+            }
+        }
+        println("${i++}. Edit current archive name")
+
         // Delete current archive
         menu[i] = {
             CheckAnswer.areYouSureDelete(
