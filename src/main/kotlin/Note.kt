@@ -1,3 +1,4 @@
-internal  class Note (val name: String, var text: String) {
-
+data class Note (
+    val name: String,
+    var text: String) {
 }
