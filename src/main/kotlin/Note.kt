@@ -1,4 +1,4 @@
 data class Note (
-    val name: String,
+    var name: String,
     var text: String) {
 }

@@ -1,14 +1,14 @@
-object Archives {
+object ArchiveMenu : Menus {
     private var route: ArrayDeque<Archive> = ArrayDeque()
-    private val menu: MutableMap<Int, () -> Any> = mutableMapOf()
+    override val menu: MutableMap<Int, () -> Any> = mutableMapOf()
     private var currentArchive: Archive = Archive("Main")
 
 
-    private fun createArchiveMenu() {
+    override fun createMenu() {
         println()
         println(BreadCrumbs.print(route))
 
-        var i: Int = 1
+        var i = 1
         menu.clear() // Clear menu
         println("Menu '${currentArchive.name}':")
 
@@ -36,6 +36,20 @@ object Archives {
         }
         println("${i++}. Add note")
 
+        // Delete current archive
+        menu[i] = {
+            CheckAnswer.areYouSureDelete(
+                "Archive '${currentArchive.name}'"
+            ) {
+                val fatherArchive = route.removeLast()
+                fatherArchive.archives.remove(currentArchive)
+                currentArchive = fatherArchive
+                return@areYouSureDelete Any()
+            }
+
+        }
+        println("${i++}. Delete current archive")
+
         // Current archives and notes
         for (archive in currentArchive.archives) {
             menu[i] = {
@@ -45,36 +59,18 @@ object Archives {
             println("${i++} Archive: ${archive.name}")
         }
         for (note in currentArchive.notes){
-            menu[i] = {println("$i")}
+            menu[i] = {
+                val noteMenu = CreateMenu()
+                noteMenu.showMenu(NoteMenu(note, currentArchive))
+            }
             println("${i++} Note: ${note.name}")
         }
 
         // EXIT
         menu[i] = {
             currentArchive = route.removeLast()
-        }
-        println("${i++}. Exit")
-    }
 
-    fun showMenu() {
-        do {
-            createArchiveMenu()
-            println("Enter your choice: ")
-            val choice = readln()
-            try {
-                choice.toInt().let {
-                    if (choice.toInt() in 1..menu.size) {
-                        menu[choice.toInt()]?.let { it() }
-                    }
-                    else { println("No such point!")}
-                }
-            }
-            catch (e: NoSuchElementException) {
-                break
-            }
-            catch (e: Exception) {
-                println("Please enter a number between 1 and ${menu.size}")
-            }
-        } while (true)
+        }
+        println("${i}. Exit")
     }
 }

@@ -1,6 +1,7 @@
 fun main(args: Array<String>) {
-    val archives = Archives
-    archives.showMenu()
+    val menu = CreateMenu()
+    val archives  = ArchiveMenu
+    menu.showMenu(archives)
 }
 
 

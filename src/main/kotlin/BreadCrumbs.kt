@@ -4,6 +4,6 @@ object BreadCrumbs {
             for (archive in route) {
                 breadCrumbs += "${archive.name} > "
             }
-            return breadCrumbs
+            return "BreadCrumbs: $breadCrumbs"
     }
 }
