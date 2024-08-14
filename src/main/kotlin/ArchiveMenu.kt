@@ -12,29 +12,33 @@ object ArchiveMenu : Menus {
         menu.clear() // Clear menu
         println("Menu '${currentArchive.name}':")
 
-        // Add archive and notes
-        menu[i] = {
-            println("Enter archive name: ")
-            val name = readln()
-            if (name!= "") {currentArchive.archives.add(Archive(name))}
-            else {println("You must enter a name to add an archive!")
-            }
-
-        }
-        println("${i++}. Add archive")
-
-        menu[i] = {
-            println("Enter note name: ")
-            val name = readln()
-            if (name!= "") {
-                println("Enter note text: ")
-                val text = readln()
-                currentArchive.notes.add(Note(name, text))
+        if (route.isEmpty()) {
+            // Add archive and notes
+            menu[i] = {
+                println("Enter archive name: ")
+                val name = readln()
+                if (name != "") {
+                    currentArchive.archives.add(Archive(name))
+                } else {
+                    println("You must enter a name to add an archive!")
                 }
-            else {println("You must enter a name to add a note!")
+
             }
+            println("${i++}. Add archive")
+        } else {
+            menu[i] = {
+                println("Enter note name: ")
+                val name = readln()
+                if (name != "") {
+                    println("Enter note text: ")
+                    val text = readln()
+                    currentArchive.notes.add(Note(name, text))
+                } else {
+                    println("You must enter a name to add a note!")
+                }
+            }
+            println("${i++}. Add note")
         }
-        println("${i++}. Add note")
 
         // Edit current archive name
         menu[i] = {
