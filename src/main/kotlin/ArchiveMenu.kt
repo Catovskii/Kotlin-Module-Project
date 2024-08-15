@@ -5,8 +5,6 @@ object ArchiveMenu : Menus {
 
 
     override fun createMenu() {
-        println()
-        println(BreadCrumbs.print(route))
 
         var i = 1
         menu.clear() // Clear menu
@@ -17,7 +15,7 @@ object ArchiveMenu : Menus {
             menu[i] = {
                 println("Enter archive name: ")
                 val name = readln()
-                if (name != "") {
+                if (name.replace("\\s".toRegex(), "") != "") {
                     currentArchive.archives.add(Archive(name))
                 } else {
                     println("You must enter a name to add an archive!")
@@ -26,13 +24,42 @@ object ArchiveMenu : Menus {
             }
             println("${i++}. Add archive")
         } else {
+
+            // Edit current archive name
+            menu[i] = {
+                println("Enter new archive name: ")
+                val name = readln()
+                if (name.replace("\\s".toRegex(), "")!= "") {currentArchive.name = name}
+                else {println("You must enter a name to edit the archive!")
+                }
+            }
+            println("${i++}. Edit current archive name")
+
+            // Delete current archive
+            menu[i] = {
+                CheckAnswer.areYouSureDelete(
+                    "Archive '${currentArchive.name}'"
+                ) {
+                    val fatherArchive = route.removeLast()
+                    fatherArchive.archives.remove(currentArchive)
+                    currentArchive = fatherArchive
+                    return@areYouSureDelete Any()
+                }
+
+            }
+            println("${i++}. Delete current archive")
+
+            // Add note
             menu[i] = {
                 println("Enter note name: ")
                 val name = readln()
-                if (name != "") {
+                if (name.replace("\\s".toRegex(), "") != "") {
                     println("Enter note text: ")
                     val text = readln()
-                    currentArchive.notes.add(Note(name, text))
+                    if (text.replace("\\s".toRegex(), "")!= "") {
+                    currentArchive.notes.add(Note(name, text))} else {
+                        println("You must enter a text to add a note!")
+                    }
                 } else {
                     println("You must enter a name to add a note!")
                 }
@@ -40,29 +67,7 @@ object ArchiveMenu : Menus {
             println("${i++}. Add note")
         }
 
-        // Edit current archive name
-        menu[i] = {
-            println("Enter new archive name: ")
-            val name = readln()
-            if (name!= "") {currentArchive.name = name}
-            else {println("You must enter a name to edit the archive!")
-            }
-        }
-        println("${i++}. Edit current archive name")
 
-        // Delete current archive
-        menu[i] = {
-            CheckAnswer.areYouSureDelete(
-                "Archive '${currentArchive.name}'"
-            ) {
-                val fatherArchive = route.removeLast()
-                fatherArchive.archives.remove(currentArchive)
-                currentArchive = fatherArchive
-                return@areYouSureDelete Any()
-            }
-
-        }
-        println("${i++}. Delete current archive")
 
         // Current archives and notes
         for (archive in currentArchive.archives) {

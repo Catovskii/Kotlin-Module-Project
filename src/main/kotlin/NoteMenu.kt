@@ -8,7 +8,7 @@ class NoteMenu(private val note: Note, private val currentArchive: Archive) : Me
         println()
         showNote(this.note)
         println()
-        println("Menu '${this.note.name}':")
+        println("Menu:")
         var i = 1
         //Edit
         menu[i] = {
@@ -21,12 +21,19 @@ class NoteMenu(private val note: Note, private val currentArchive: Archive) : Me
                 1 -> {
                     println("Enter new name: ")
                     val newTitle = readln()
-                    this.note.name = newTitle
+                    if (newTitle.replace("\\s".toRegex(), "") != "") {
+                    this.note.name = newTitle} else {
+                        println("Name can't be empty")
+                    }
                 }
                 2 -> {
                     println("Enter new text: ")
                     val newContent = readln()
-                    this.note.text = newContent
+                    if (newContent.replace("\\s".toRegex(), "")!= "") {
+                    this.note.text = newContent}
+                    else {
+                        println("Text can't be empty")
+                    }
                 }
             }
         }
