@@ -8,7 +8,7 @@ class NoteMenu(private val note: Note, private val currentArchive: Archive) : Me
         println()
         showNote(this.note)
         println()
-        println("Menu:")
+        println("Menu '${this.note.name}':")
         var i = 1
         //Edit
         menu[i] = {
